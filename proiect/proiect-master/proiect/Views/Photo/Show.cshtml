@@ -1,0 +1,82 @@
+﻿@model proiect.Models.Photo
+
+@{
+    ViewBag.Title = "Show photo";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+                <div class="row">
+                    @Html.Partial("PhotoInfo", Model)
+
+                    @foreach (var com in ViewBag.Comments)
+                    {
+                        <div class="col-md-12">
+                            <div class="blog-entry ftco-animate d-md-flex">
+                               
+                                <div class="text text-2 p-4">
+                                    <h3 class="mb-2"><a href="/profile/show/@Model.User.Id"> @com.User.UserName </a> said:</h3>
+
+                                    <p class="mb-4">@com.Content</p>
+                                        <p>
+                                            @if (com.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin || Model.UserId == ViewBag.utilizatorCurent)
+                                            {
+                                            <a href="/Comment/Delete/@com.CommentId" class="btn-custom">Delete comment <span class="icon icon-trash-o"></span></a>
+                                            
+                                            }
+                                            @if (com.UserId == ViewBag.utilizatorCurent)
+                                            {
+                                                <a href="/Comment/Edit/@com.CommentId" class="btn-custom">Edit comment <span class="icon icon-pencil"></span></a>
+                                            }
+                                        </p>
+                                    </div>
+                            </div>
+                        </div>
+
+                    }
+                    <a class="btn btn-custom-success" href="/Comment/Add/@Model.PhotoId">Add comment</a>
+
+                    
+                        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent)
+                        {
+
+                            <a class="btn btn-primary" href="/Photo/Edit/@Model.PhotoId">Modify photo</a>
+
+                            
+                        }
+                        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
+                        {
+                            using (Html.BeginForm(actionName: "Delete", controllerName: "Photo", method: FormMethod.Post, routeValues: new { id = @Model.PhotoId }))
+                            {
+
+                                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                <button class="btn btn-danger" type="submit">Delete photo</button>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+

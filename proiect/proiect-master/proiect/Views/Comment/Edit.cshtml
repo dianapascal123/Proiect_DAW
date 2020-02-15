@@ -1,0 +1,52 @@
+﻿
+@model proiect.Models.Comment
+
+@{
+    ViewBag.Titlu = "Edit comment";
+}
+
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Titlu </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+
+                @using (Html.BeginForm(actionName: "Edit", controllerName: "Comment"))
+                {
+                    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(m => m.PhotoId)
+                    @Html.HiddenFor(m => m.UserId)
+                    
+                    <div class="form-group">
+                        @Html.Label("Content", "Content")
+
+                        @Html.TextBox("Content", null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    @Html.HiddenFor(m => m.Date)
+
+                    <div class="form-group">
+                        <input type="submit" value="Modify comment" class="btn btn-primary py-3 px-5">
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+

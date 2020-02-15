@@ -1,0 +1,61 @@
+﻿@model proiect.Models.Album
+
+@{
+    ViewBag.Title = "Show album";
+}
+
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title : @Model.AlbumTitle</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-3">
+    <div class="photograhy">
+        <div class="row">
+
+            @foreach (proiect.Models.Photo ph in ViewBag.Photos)
+            {
+                <div class="col-md-4 ftco-animate">
+                    <a href="/Photo/show/@ph.PhotoId">
+                        <img src="@Url.Content(ph.PhotoFile)" class="photography-entry img d-flex justify-content-start align-items-end" />
+
+                    </a>
+                </div>
+            }
+            </div>
+
+            @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent)
+            {
+
+
+                <a class="btn btn-primary" href="/Album/Edit/@Model.AlbumId">Modify album</a>
+
+            }
+
+
+            @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+                || ViewBag.esteAdmin)
+            {
+
+                using (Html.BeginForm(actionName: "Delete", controllerName: "Album", method: FormMethod.Post, routeValues: new { id = @Model.AlbumId }))
+                {
+
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <br />
+                    <button class="btn btn-danger" type="submit">Delete album</button>
+
+                }
+            }
+        
+    </div>
+</section>
+
+
+
+

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section-3">
+    <div class="photograhy">
+        <div class="row">
+
+            @*@if (ViewBag.notFound != null)
+        {
+            <h3>@ViewBag.notFound</h3>
+        }
+            *@
+
+            @*@foreach (var ph in ViewBag.Photos)
+        {
+            <div class="col-md-4 ftco-animate">
+                <a href="/Photo/show/@ph.PhotoId">
+                    <img src="@Url.Content(ph.PhotoFile)" width=" 270" height=" 250" />
+                </a>
+
+            </div>
+         }*@
+
+            @foreach (var ph in ViewBag.Photos)
+            {
+            <div class="col-md-4 ftco-animate">
+                <a href="/Photo/show/@ph.PhotoId">
+                    <img src="@Url.Content(ph.PhotoFile)" class="photography-entry img d-flex justify-content-start align-items-end" />
+                    
+                </a>
+                
+                @*<a href="/Photo/show/@ph.PhotoId" class="photography-entry img image-popup d-flex justify-content-start align-items-end" style="background-image: @Url.Content(ph.PhotoFile);">*@
+            </div>
+
+
+            }
+
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+               
+
+

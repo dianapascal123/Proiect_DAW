@@ -1,0 +1,383 @@
+﻿@model proiect.Models.Photo
+
+@{
+    ViewBag.Title = "Add photo";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+                @using (Html.BeginForm("AddPhoto", "Photo", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(m => m.UserId)
+
+                    <div class="form-group">
+                        <h3>Step 1 - Upload image</h3>
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhotoFile, new { @class = "" })
+                        <br />
+                        <input type="file" id="flPhoto" name="upload" />
+                       
+
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <br />
+                                        Width: <label id="lblWidth">200px</label>
+                                        Height: <label id="lblHeight">200px</label>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h3>Step 2 - Select the area and press "Crop Image"</h3>
+                                        <a class ="btn btn-primary" href="#" id="hlcropImage" style="vertical-align:top;">Crop Image</a>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="height:500px; width:700px; overflow:auto;">
+                                            <img id="imgEmpPhoto" src="\Images\Default\default-upload3.png" alt="Upload Image" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <canvas id="canvas" height="5" width="5" style="vertical-align:top;"></canvas>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <h3>Step 3 - Add one filter</h3>
+                                        <a class="btn btn-primary py-3 px-5" href='javascript:;' onclick='filter2Function();'>Black and White</a>
+                                        <a class="btn btn-primary py-3 px-5" href='javascript:;' onclick='filter3Function();'>Brightness</a>
+                                    </td>
+
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <a class="btn btn-primary py-3 px-5" href='javascript:;' onclick='filter5Function();'>Invert</a>
+                                        <a class="btn btn-primary py-3 px-5" href='javascript:;' onclick='filter4Function();'>Sepia</a>
+                                        <a class="btn btn-primary py-3 px-5" href='javascript:;' onclick='filter1Function();'>Grayscale</a>
+                                    </td>
+
+                                </tr>
+                                
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <p>
+                        <img id="imgCropped" src="#" style="display:none;" />
+                    </p>
+
+                    <input type="hidden" name="avatarCropped" id="avatarCropped" />
+
+                    
+                    <div class="form-group">
+                        <h3>Step 4 -Add description, category and album</h3>
+                    </div>
+                        <div class="form-group">
+                            @Html.Label("Description", "Description")
+                            <br />
+                            @Html.TextArea("Description", null, new { @class = "form-control" })
+                            @Html.ValidationMessage("Description", "", new { @class = "text-danger" })
+                        </div>
+                        @Html.Hidden("Date", DateTime.Now, new { @class = "form-control" })
+
+                        <div class="form-group">
+                            <label>Select category</label>
+
+                            @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Value", "Text"),
+                                        "Select category", new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            <label>Select album</label>
+
+                            @Html.DropDownListFor(m => m.AlbumId, new SelectList(Model.Albums, "Value", "Text"),
+                                        "Select album", new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(m => m.AlbumId, "", new { @class = "text-danger" })
+                            <br />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Add" class="btn btn-primary py-3 px-5">
+                        </div>
+
+                        }
+
+                    </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    
+    <script type="text/javascript">
+        //grayscale
+        function filter1Function() {
+
+            /*document.getElementById("canvas").style.filter = "grayscale(100%)";
+            document.getElementById("canvas").style.height = "500px";
+            document.getElementById("canvas").style.width = "500px";
+            document.getElementById("canvas").style.webkitFilter = "grayscale(100%)";*/
+
+            var canv = document.getElementById("canvas");
+            var cxt = canv.getContext('2d');
+
+            var pixels = cxt.getImageData(0, 0, canv.width, canv.height);
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i += 4) {
+                var r = d[i];
+                var g = d[i + 1];
+                var b = d[i + 2];
+                var v = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                d[i] = d[i + 1] = d[i + 2] = v
+            }
+            cxt.putImageData(pixels, 0, 0);
+
+            $('#avatarCropped').val(canv.toDataURL());
+
+        }
+        //black and white 128
+        function filter2Function() {
+
+            var canv = document.getElementById("canvas");
+            var cxt = canv.getContext('2d');
+
+            var pixels = cxt.getImageData(0, 0, canv.width, canv.height);
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i += 4) {
+                var r = d[i];
+                var g = d[i + 1];
+                var b = d[i + 2];
+                var v = (0.2126 * r + 0.7152 * g + 0.0722 * b >= 128) ? 255 : 0;
+                d[i] = d[i + 1] = d[i + 2] = v
+            }
+            cxt.putImageData(pixels, 0, 0);
+
+            $('#avatarCropped').val(canv.toDataURL());
+
+        }
+        //brightness
+        function filter3Function() {
+
+            var canv = document.getElementById("canvas");
+            var cxt = canv.getContext('2d');
+            var adj = 40;
+
+            var pixels = cxt.getImageData(0, 0, canv.width, canv.height);
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i += 4) {
+
+                d[i] += adj;
+                d[i + 1] += adj;
+                d[i + 2] += adj;
+            }
+            cxt.putImageData(pixels, 0, 0);
+
+            $('#avatarCropped').val(canv.toDataURL());
+
+        }
+        //sepia
+        function filter4Function() {
+
+            var canv = document.getElementById("canvas");
+            var cxt = canv.getContext('2d');
+            var adj = 40;
+
+            var pixels = cxt.getImageData(0, 0, canv.width, canv.height);
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i += 4) {
+                var r = d[i];
+                var g = d[i + 1];
+                var b = d[i + 2];
+
+                var tr = 0.393 * r + 0.769 * g + 0.189 * b;
+                var tg = 0.349 * r + 0.686 * g + 0.168 * b;
+                var tb = 0.272 * r + 0.534 * g + 0.131 * b;
+
+                if (tr > 255) r = 255; else r = tr;
+                if (tg > 255) g = 255; else g = tg;
+                if (tb > 255) b = 255; else b = tb;
+
+
+                d[i] = r;
+                d[i + 1] = g;
+                d[i + 2] = b;
+            }
+            cxt.putImageData(pixels, 0, 0);
+
+            $('#avatarCropped').val(canv.toDataURL());
+
+        }
+        //invert color
+        function filter5Function() {
+
+            var canv = document.getElementById("canvas");
+            var cxt = canv.getContext('2d');
+            var adj = 40;
+
+            var pixels = cxt.getImageData(0, 0, canv.width, canv.height);
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i += 4) {
+
+
+                d[i] = d[i] ^ 255; // Invert Red
+                d[i + 1] = d[i + 1] ^ 255; // Invert Green
+                d[i + 2] = d[i + 2] ^ 255; // Invert Blue
+            }
+            cxt.putImageData(pixels, 0, 0);
+
+            $('#avatarCropped').val(canv.toDataURL());
+
+        }
+
+        var imageCropWidth = 0;
+        var imageCropHeight = 0;
+        var cropPointX = 0;
+        var cropPointY = 0;
+        var jcropApi;
+
+        $(document).ready(function () {
+        });
+
+        $("#hlcropImage").on("click", function (e) {
+
+            /*
+            The event.preventDefault() method stops the default action of
+            an element from happening. For example: Prevent a submit button
+            from submitting a form. Prevent a link from following the URL
+            */
+
+            e.preventDefault();
+            cropImage();
+        });
+
+        function initCrop() {
+            $('#imgEmpPhoto').Jcrop({
+                onChange: setCoordsAndImgSize,
+                aspectRatio: 1.4,
+                setSelect: [0, 0, 203, 145],
+                allowResize: true,
+                onSelect: setCoordsAndImgSize
+            }, function () { jcropApi = this });
+        }
+
+        function showCoordinate() {
+            var cw = Math.round(imageCropWidth);
+            var ch = Math.round(imageCropHeight);
+            $("#lblWidth").text(cw + "px");
+            $("#lblHeight").text(ch + "px");
+        }
+
+        function setCoordsAndImgSize(e) {
+
+            imageCropWidth = e.w;
+            imageCropHeight = e.h;
+            
+
+            cropPointX = e.x;
+            cropPointY = e.y;
+
+            var cw = Math.round(imageCropWidth);
+            var ch = Math.round(imageCropHeight);
+            $("#lblWidth").text(cw + "px");
+            $("#lblHeight").text(ch + "px");
+        }
+
+        function cropImage() {
+
+            if (imageCropWidth == 0 && imageCropHeight == 0) {
+                alert("Please select crop area.");
+                return;
+            }
+
+            var img = $("#imgEmpPhoto").attr("src");
+
+            /*Show cropped image*/
+            showCroppedImage();
+        }
+
+        function showCroppedImage() {
+            var x1 = cropPointX;
+            var y1 = cropPointY;
+
+            var width = imageCropWidth;
+            var height = imageCropHeight;
+            var canvas = $("#canvas")[0];
+            var context = canvas.getContext('2d');
+            var img = new Image();
+            img.onload = function () {
+                canvas.height = height;
+                canvas.width = width;
+                context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
+                $('#avatarCropped').val(canvas.toDataURL());
+            };
+            img.src = $('#imgEmpPhoto').attr("src");
+        }
+
+        function readFile(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                /*Destroy jcrop initialization other wise it will hold it previous image in img tag*/
+                if (jcropApi != null) {
+                    jcropApi.destroy();
+                }
+                reader.onload = function (e) {
+                    $('#imgEmpPhoto').attr('src', "");
+                    var img = $('#imgEmpPhoto').attr('src', e.target.result);
+
+                    /*Current uploaded image size*/
+                    var width = img[0].height;
+                    var height = img[0].width;
+                    $("#lblWidth").text(width + "px");
+                    $("#lblHeight").text(height + "px");
+
+                    //InitCrop must call here otherwise it will not work
+                    initCrop();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $('#flPhoto').change(function () {
+            readFile(this);
+        });
+    </script>
+
+}
+
+

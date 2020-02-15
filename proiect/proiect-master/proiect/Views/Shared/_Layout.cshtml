@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Herr+Von+Muellerhoff" rel="stylesheet">
+    <link rel="stylesheet" href="/stilizare/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="/stilizare/css/animate.css">
+
+    <link rel="stylesheet" href="/stilizare/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/stilizare/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/stilizare/css/magnific-popup.css">
+    <link rel="stylesheet" href="/stilizare/css/aos.css">
+    <link rel="stylesheet" href="/stilizare/css/ionicons.min.css">
+    <link rel="stylesheet" href="/stilizare/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/stilizare/css/jquery.timepicker.css">
+
+    <link rel="stylesheet" href="/stilizare/css/flaticon.css">
+    <link rel="stylesheet" href="/stilizare/css/icomoon.css">
+    <link rel="stylesheet" href="/stilizare/css/style.css">
+
+    <link href="/Content/jquery.Jcrop.css" rel="stylesheet" >
+
+</head>
+<body>
+    <div id="colorlib-page">
+        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+        <aside id="colorlib-aside" role="complementary" class="js-fullheight text-center">
+            <h1 id="colorlib-logo">
+                <a href="@Url.Action("Index", "Home")"><span class="img" style="background-image: url(/stilizare/images/logodian.jpg);"></span>DiAn Photo Sharing</a>
+            </h1>
+            <nav id="colorlib-main-menu" role="navigation">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                    <li><a href="@Url.Action("ShowOwn", "Profile")">Own profile</a></li>
+                    <li><a href="@Url.Action("Index", "Category")">Categories</a></li>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li><a href="@Url.Action("IndexUsers", "Profile")">Users</a></li>
+                    }
+                    <li>
+                        @using (Html.BeginForm("IndexSearchedPhotos", "Photo", FormMethod.Get))
+                        {
+                            <div class="form-group">
+                                @Html.TextBox("SearchText", "", new { placeholder = "Type and click enter" })
+                                <span class="icon icon-search"></span>
+                            </div>
+                        }
+                    </li>
+                    @Html.Partial("_LoginPartial")
+                </ul>
+            </nav>
+        </aside>
+
+
+        <div id="colorlib-main">
+
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+
+
+        </div>
+
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="../../stilizare/js/jquery.min.js"></script>
+    <script src="../../stilizare/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="../../stilizare/js/popper.min.js"></script>
+    <script src="../../stilizare/js/bootstrap.min.js"></script>
+    <script src="../../stilizare/js/jquery.easing.1.3.js"></script>
+    <script src="../../stilizare/js/jquery.waypoints.min.js"></script>
+    <script src="../../stilizare/js/jquery.stellar.min.js"></script>
+    <script src="../../stilizare/js/owl.carousel.min.js"></script>
+    <script src="../../stilizare/js/jquery.magnific-popup.min.js"></script>
+    <script src="../../stilizare/js/aos.js"></script>
+    <script src="../../stilizare/js/jquery.animateNumber.min.js"></script>
+    <script src="../../stilizare/js/bootstrap-datepicker.js"></script>
+    <script src="../../stilizare/js/scrollax.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="../../stilizare/js/google-map.js"></script>
+    <script src="../../stilizare/js/main.js"></script>
+    <script src="../../Scripts/jquery.Jcrop.min.js"></script>
+    <script src="../../Scripts/jquery.Jcrop.js"></script>
+</body>
+</html>

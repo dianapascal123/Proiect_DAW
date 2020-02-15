@@ -1,0 +1,34 @@
+﻿@model List<proiect.Models.Photo>
+@{
+    ViewBag.Title = "Found photos";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-3">
+    <div class="photograhy">
+        <div class="row">
+            @foreach (var ph in Model)
+            {
+                <div class="col-md-4 ftco-animate">
+                    <a href="/Photo/show/@ph.PhotoId">
+                        <img src="@Url.Content(ph.PhotoFile)" class="photography-entry img d-flex justify-content-start align-items-end" />
+
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+
+
+

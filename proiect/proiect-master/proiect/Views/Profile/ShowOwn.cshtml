@@ -1,0 +1,95 @@
+﻿@{
+
+    ViewBag.Title = "Own Profile";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+                
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+                <div class="row">
+
+                    @if (TempData.ContainsKey("message"))
+                    {
+                        <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
+                    }
+
+                    @if (TempData.ContainsKey("notFound"))
+                    {
+                        <h3 class="alert alert-info" role="alert">@ViewBag.notFound</h3>
+                    }
+
+                    <div class="col-md-12">
+                        <div class="blog-entry ftco-animate d-md-flex">
+                            
+                            <div class="text text-2 p-4">
+                                @if (ViewBag.profile.Name == null)
+                                {
+
+                                    <h1 class="mb-2">No name added</h1>
+                                }
+                                else
+                                {
+                                    <h1 class="mb-2">@ViewBag.profile.Name</h1>
+                                }
+
+                                @if (ViewBag.profile.Description == null)
+                                {
+                                    <p class="mb-2">No description added</p>
+                                }
+                                else
+                                {
+                                    <p class="mb-2">@ViewBag.profile.Description</p>
+
+                                }
+                                @if (ViewBag.profile.ApplicationUserId == ViewBag.utilizatorCurent)
+                                {
+                                    <br />
+                                    <p><a href="/Profile/Edit" class="btn-custom">Edit profile <span class="icon icon-edit"></span></a></p>
+                                    
+                                    <p><a href="/Album/New" class="btn-custom">Add a new album <span class="icon icon-book"></span></a></p>
+                                    
+                                    <p><a href="/Photo/AddPhoto" class="btn-custom">Add a new photo <span class="icon icon-file-image-o"></span></a></p>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @foreach (var alb in ViewBag.albums)
+                    {
+
+
+                        <div class="col-md-12">
+                            <div class="blog-entry ftco-animate d-md-flex">
+
+                                <div class="text text-2 p-4">
+                                    <h3 class="mb-2">@alb.AlbumTitle</h3>
+                                    <p><a href="/Album/Show/@alb.AlbumId" class="btn-custom">Show album <span class="ion-ios-arrow-forward"></span></a></p>
+                                    @if (ViewBag.profile.ApplicationUserId == ViewBag.utilizatorCurent)
+                                    {
+                                        <p><a href="/Album/Edit/@alb.AlbumId" class="btn-custom">Edit album <span class="ion-ios-arrow-forward"></span></a></p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+                   
+

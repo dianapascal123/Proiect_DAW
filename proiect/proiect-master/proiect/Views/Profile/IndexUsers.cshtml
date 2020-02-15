@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "User list";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+                <div class="row">
+                    @if (ViewBag.notFound != null)
+                    {
+                        <h3 class="alert alert-info" role="alert">@ViewBag.notFound</h3>
+                    }
+
+                    @foreach (var user in ViewBag.Users)
+                    {
+                        <div class="col-md-12">
+                            <div class="blog-entry ftco-animate d-md-flex">
+
+                                <div class="text text-2 p-4">
+
+                                    <h3 class="mb-2">@user.UserName</h3>
+
+                                    @if (ViewBag.afisareButoane == true && ViewBag.esteAdmin)
+                                    {
+                                        using (Html.BeginForm(actionName: "DeleteUser", controllerName: "Profile", routeValues: new { id = @user.Id }))
+                                        {
+
+                                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+                                            <button class="btn btn-danger" type="submit">Delete user</button>
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

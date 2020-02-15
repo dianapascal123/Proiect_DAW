@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Category list";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+                <div class="row">
+                    @if (ViewBag.notFound != null)
+                    {
+                        <h3 class="alert alert-info" role="alert">@ViewBag.notFound</h3>
+                    }
+
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <div class="col-md-12">
+                            <div class="blog-entry ftco-animate d-md-flex">
+
+                                <div class="text text-2 p-4">
+                                    <h3 class="mb-2"><a href="/Category/Show/@category.CategoryId">@category.CategoryName</a></h3>
+
+                                    @if (ViewBag.afisareButoane == true && ViewBag.esteAdmin)
+                                    {
+                                        <a class="btn btn-custom-success" href="/Category/Edit/@category.CategoryId">Edit category</a>
+
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                        <div class="col-md-12">
+                            <div class="blog-entry ftco-animate d-md-flex">
+                                <div class="text text-2 p-4">
+
+                                    @if (ViewBag.afisareButoane == true && ViewBag.esteAdmin)
+                                    {
+                                        <a class="btn btn-custom-info" href="/Category/New">Add a new category</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

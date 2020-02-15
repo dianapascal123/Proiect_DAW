@@ -1,0 +1,34 @@
+﻿@model proiect.Models.Photo
+
+<div class="col-md-12">
+    <div class="blog-entry ftco-animate d-md-flex">
+        <a href="/Photo/show/@Model.PhotoId">
+            <img src="@Url.Content(Model.PhotoFile)" width="760" height=" 542" />
+        </a>
+        <br />
+        
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="blog-entry ftco-animate d-md-flex">
+        
+
+        <div class="text text-2 p-4">
+
+            <div class="meta-wrap">
+                <p class="meta">
+                    <span class="icon icon-clock-o"> @Model.Date</span>
+                    <br />
+                    <span class="icon icon-list-alt"><a href="/Category/show/@Model.Category.CategoryId"> @Model.Category.CategoryName </a></span>
+                    <span class="icon icon-book"><a href="/album/show/@Model.Album.AlbumId"> @Model.Album.AlbumTitle </a></span>
+
+                </p>
+            </div>
+            <p class="mb-4">@Model.Description</p>
+            <p><a href="/profile/show/@Model.User.Id">@Model.User.UserName <span class="icon icon-user"></span></a></p>
+        </div>
+    </div>
+</div>
+
+

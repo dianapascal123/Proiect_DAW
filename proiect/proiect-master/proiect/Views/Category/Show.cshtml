@@ -1,0 +1,43 @@
+﻿@model proiect.Models.Category
+@{
+    ViewBag.Title = "Show category";
+}
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Title : @Model.CategoryName</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-3">
+    <div class="photograhy">
+        <div class="row">
+            @foreach (proiect.Models.Photo photo in ViewBag.Photos)
+            {
+
+                <div class="col-md-4 ftco-animate">
+                    <a href="/Photo/show/@photo.PhotoId">
+                        <img src="@Url.Content(photo.PhotoFile)" class="photography-entry img d-flex justify-content-start align-items-end" />
+
+                    </a>
+                </div>
+            }
+
+
+        </div>
+        @if (ViewBag.afisareButoane == true && ViewBag.esteAdmin)
+        {
+            using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @Model.CategoryId }))
+            {
+
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+                <button class="btn btn-danger" type="submit">Delete category</button>
+            }
+        }
+    </div>
+</section>

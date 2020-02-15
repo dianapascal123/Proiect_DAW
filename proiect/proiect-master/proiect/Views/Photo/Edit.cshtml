@@ -1,0 +1,66 @@
+﻿@model proiect.Models.Photo
+
+@{
+    ViewBag.Titlu = "Edit photo";
+}
+
+<section class="ftco-section ftco-bread">
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-md-8 ftco-animate">
+
+                <h1 class="bread">@ViewBag.Titlu </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-lg-8">
+
+                @using (Html.BeginForm(actionName: "Edit", controllerName: "Photo"))
+                {
+                    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+                    @Html.HiddenFor(m => m.PhotoId)
+
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+                    <div class="form-group">
+                        @Html.Label("Description", "Description")
+                        <br />
+                        @Html.TextArea("Description", @Model.Description,5,7, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+                    
+
+                    @Html.HiddenFor(m => m.Date)
+
+                    <div class="form-group">
+                        <label>Select category</label>
+                        @Html.DropDownListFor(m => m.CategoryId,
+                            new SelectList(Model.Categories, "Value", "Text"),
+                            "Select category", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select album</label>
+                        @Html.DropDownListFor(m => m.AlbumId,
+                            new SelectList(Model.Albums, "Value", "Text"),
+                            "Select album", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.AlbumId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Modify photo" class="btn btn-primary py-3 px-5">
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+
